@@ -35,11 +35,12 @@ Do and To do list:
 This is a beta version, developed for future needs. There are a lot of things to do, such as:
 
 - Light Version (whitout Backbone & Underscore)
-- exploit the possibilities of Backbone
+- Exploit the possibilities of Backbone
 - Develop client management wisthlist (like item order, item prop, ecc...)
 - Crossbrowser bug fix (> IE7)
-- Dev some **RedyToUse** exaples with graphics (css and HTML).
+- Dev some **RedyToUse** exaples with graphics (CSS/HTML - button and bar)
 
 **Remote Dev**
 
-- integrate the ability to communicate with a server ( _REST_ ) via Backbone
+- Integrate the ability to communicate with a server ( _REST_ ) via Backbone
+- Dev an HTML-JS and iFrame for external use of wishlistbar
