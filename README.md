@@ -12,10 +12,10 @@ Requirements
 
 *Wishlist* need some library for works 100%, in the future we wont to create a light versione without this libs, but today for boost the developent of the plug-in we need it.
 
-* jQuery (> 1.8 raccomanded)
-* Underscore JS
-* Backbone JS
-* JSON2
+* [jQuery](http://jquery.com/ "jQuery Home") (> 1.8 raccomanded)
+* [Underscore JS](http://underscorejs.org/ "Underscore Home")
+* [Backbone JS](http://backbonejs.org/ "Backbone Home")
+* [JSON2](https://github.com/douglascrockford/JSON-js "Json2 GitHub")
 
 What can we do?
 ---------------------
