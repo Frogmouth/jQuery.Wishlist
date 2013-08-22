@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Simple Wish List example</title>
+	<meta name="author" content="simone luise">
+	<script type="text/javascript" src="/js/jq.js"></script>
+	<script type="text/javascript" src="/js/jquery_cookies.js"></script>
+	<script type="text/javascript" src="/js/json2.js"></script>
+	<script type="text/javascript" src="/js/underscore.js"></script>
+	<script type="text/javascript" src="/js/backbone.js"></script>
+	<script type="text/javascript" src="/js/jquery_wish.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#wishList").wishlist({
+					debug : true //see console
+				}
+			});
+		});
+	</script>
+</head>
+<body>
+	<!-- wish button -->
+	<a class="wishAction addToWish" data-id="1" href="#">Aggiungi 1</a></li>
+	<a class="wishAction addToWish" data-id="2" href="#">Aggiungi 2</a></li>
+
+	<ul id="wishList">
+		<!-- list of wished item -->
+	</ul>
+	
+	<!-- clear Button -->
+	<a id="clearWish" href="#">Pulisci Lista</a>
+	
+</body>
+</html>
