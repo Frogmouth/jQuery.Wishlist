@@ -10,9 +10,10 @@ A simple jquery plugin for manage a wishlist with cookies and without registrati
 Requirements
 ---------------------
 
-*Wishlist* need some library for works 100%, in the future we wont to create a light versione without this libs, but today for boost the developent of the plug-in we need it.
+*Wishlist* needs some library for works 100%, in the future, we want to creating a light versione without these libs, but today for boost developing plug-in we need it.
 
 * [jQuery](http://jquery.com/ "jQuery Home") (> 1.8 raccomanded)
+* [jCookies](https://github.com/carhartl/jquery-cookie "jquery-cookie") (> 1.8 raccomanded)
 * [Underscore JS](http://underscorejs.org/ "Underscore Home")
 * [Backbone JS](http://backbonejs.org/ "Backbone Home")
 * [JSON2](https://github.com/douglascrockford/JSON-js "Json2 GitHub")
@@ -20,12 +21,14 @@ Requirements
 What can we do?
 ---------------------
 
-With *Wishlist* you can crate a simple bar or button (or as u like) who save some page information into a cookie for create a simple wishlist (or reminder, or chart, ...).
-Use cookies? **Yes!** Why? Because, today all mayor site (like FB o bigG) need that the client accept Cookies an so... why not exploit it?
+With *Wishlist* you can create a simple bar or button (or what you like) who save page's information into a cookie for create a simple wishlist (or reminder, or cart, ...).
+Use cookies? **Yes!** Why? Because, today all big sites (like FB o bigG) need those who the client accept Cookies, and therefore... why not exploit them?
 It's an alternative to the registration, **a simple way to do a complex thing**.
-**Backbone**, why? Because it allows me to have the very useful tools for the development, which, MVC architecture and a system of Route.
-Collections and models in Backbone allow to manipulate the information with smart end powerfull tools, like filtering, ordering, ecc... and in the future allow the possibility to integrate with a server side app.
-It's a jQuery plugin only because it's friendly for more Dev that backbone only but in the future maybe I use jQuery only for the View.
+
+**Backbone**, why? Because it allows me to have some very useful tools for the development, which: MVC architecture and a route system.
+Collections and models of Backbone allow to manipulate the information with smart and powerfull tools, like: filtering, ordering, ecc... and in the future it allows the possibility to integrate with a server side app.
+
+It's a jQuery plugin only because it's friendly for more developer, rather that Backbone only, but in the future maybe we will use jQuery only for the View.
 
 Do and To do list:
 ---------------------
