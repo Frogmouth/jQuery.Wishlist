@@ -13,7 +13,7 @@ Requirements
 *Wishlist* needs some library for works 100%, in the future, we want to creating a light versione without these libs, but today for boost developing plug-in we need it.
 
 * [jQuery](http://jquery.com/ "jQuery Home") (> 1.8 raccomanded)
-* [jCookies](https://github.com/carhartl/jquery-cookie "jquery-cookie") (> 1.8 raccomanded)
+* [jCookies](https://github.com/carhartl/jquery-cookie "jquery-cookie")
 * [Underscore JS](http://underscorejs.org/ "Underscore Home")
 * [Backbone JS](http://backbonejs.org/ "Backbone Home")
 * [JSON2](https://github.com/douglascrockford/JSON-js "Json2 GitHub")
