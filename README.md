@@ -5,7 +5,7 @@ jQuery.Wishlist
 
 A simple jquery plugin for manage a wishlist with cookies and without registration needed.
 
-### Current Version: 1.1 Beta
+### Current Version: 1.2 Beta
 
 Requirements
 ---------------------
@@ -34,6 +34,8 @@ Do and To do list:
 ---------------------
 
 - Create the plugin Core 1.x Beta Versione
+- Core Code completely refactored for version 1.2.1
+- Correct the syntax bug of min version (now is 100% working)
 
 This is a beta version, developed for future needs. There are a lot of things to do, such as:
 
