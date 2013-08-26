@@ -1,4 +1,4 @@
-/* Beta Version 1.2.1 by Simone Luise - infoWishlist@simoneluise.com
+/* Beta Version 1.2.2 by Simone Luise - infoWishlist@simoneluise.com
 *
 *  //--> (si riferisce a future evoluzioni)
 *
@@ -16,16 +16,8 @@
 	
 	//controlli sulle librerie necessarie
 	if(window.wishlist.debug){
-		if(typeof _ == "undefined"){
-			console.log("Undescrore: Not Found!");
-		} else {
-			console.log("Underscore: Ready!");
-		}
-		if(typeof Backbone == "undefined"){
-			console.log("Backbone: Not Found!");
-		} else {
-			console.log("Backbone: Ready!");
-		}
+		(typeof _ == "undefined") ? console.log("Undescrore: Not Found!") : console.log("Underscore: Ready!");
+		(typeof Backbone == "undefined") ? console.log("Backbone: Not Found!") : console.log("Backbone: Ready!");
 	}
 	//fine controlli
 
@@ -55,15 +47,29 @@
 			
 			
 			triggerEvent : ["click", "click"],		// eventi sui quali bindare [0] -> aggiunta e [1] -> rimozione di elementi del cookies
-			//override funzioni
 			
-			loadOverride : null,				// funzione che viene richiamata all'aggiunta di un elmento al cookie nonché al load del plugin
-			removeOverride : null,				// funzione che viene richiamata alla rimozione di un elemento al cookie
+			//override dei gestori degli eventi
+			handlerLoad : null,						// sovrascrive il metodo costruttore dei dati
+			handlerAdd : null,						// sovrascrive tutta la gestione dei dati e il loro inserimento nel DOM durante l'evento di aggiunta di un elmento
+			handlerRemove : null,					// sovrascrive tutta la gestione dei dati e il loro inserimento nel DOM durante la rimozione di un elmento
+			handlerCler : null,						// sovrascrive tutta la gestione dei dati e il loro inserimento nel DOM durante la rimozione di tutti gli elementi
 			
-			clearAllWishedItems : null,			// funzione che viene richiamata quando si elimina l'intero cookie
-			wishTriggerFunction : null,			// funzione che viene richiamata per definire e aggiungere una nuova proprietà al modello prima che venga inserito nel cookie
-			unbindAll : null,					// funzione che viene richiamata per prevenire l'evento che scatena il Clear, il remove e l'aggiunta di un cookie (es. quando il browser non accetta cookie)
+			//middlewere
+			pickerOverride : null,					// eseguito prima del gestore di aggiunta e rimozione sovrascrive il metodo di "ricerca" dei dati [deve ritornare un oggetto formattato come i default backbone] (attr: item)
+			toClear : null,							// eseguito prima del gestore di pulizia della wishlist estendendolo
 			
+			//override dei metodi di manipolazione del DOM
+			loadHtml : null,						// sovrascrive il metodo costruttore della struttura HTML della wishlist
+			addItemHtml : null,						// sovrascrive il metodo di manipolazione del DOM all'aggiunta di un item (attrbutes: data)
+			removeItemHtml : null,					// sovrascrive il metodo di manipolazione del DOM alla rimozione di un item (attrbutes: id)
+			
+			//funzioni di callback eseguite:
+			onLoadCallback : null,					// dopo il costruttore
+			onAddCallback : null,					// dopo il gestore dell'evento di aggiunta
+			onRemoveCallback : null,				// dopo il gestore dell'evento di rimozione
+			onClearCallback : null,					// dopo il gestore dell'evento di rimozione totale
+			
+			//altre properieta secondarie
 			debug : false,						// controllo modalità debug {tramite console.log - NON ATTIVARE SE SI USA IE} sovrascrive la generale all'interno dell'esecuzione del plugin
 			
 			text : {							// testi
@@ -80,14 +86,7 @@
 				var nameError = 1;
 			}
 
-			if(settings.debug == true){
-				console.log("Inizio Debug");
-
-				if(typeof nameError != "undefined"){
-					console.log("Cookie's name already in use: change it please. the name is change in '_yoursetCookie.name'");
-				}
-				
-			}
+			(settings.debug == true) ? console.log("Inizio Debug") : (typeof nameError != "undefined") ? console.log("Cookie's name already in use: change it please. the name is change in '_yoursetCookie.name'") : null;
 			
 			debWish = function(){ (settings.debug) ? console.log('Cookie:', $.cookie(settings.setCookie.name)) : function(){}; };
 			debCookie = function(){ (settings.debug) ? console.log('Collection:', that.wishList) : function(){}; };
@@ -95,7 +94,7 @@
 		
 		//fine controlli locali
 		
-		//METODI GESTIONE COOKIE E OGGETTI COLLEZIONI BACKBONE DI WISHLIST
+		//METODI GESTIONE OGGETTI COLLEZIONI BACKBONE DI WISHLIST
 		//invocato per aggiungere un'istanza all'oggetto locale wishlist
 		addToWish = function(options){
 			options = (typeof options != "array") ? new Array(options) : options;
@@ -107,17 +106,21 @@
 		//invocato per eliminare un'istanza dall'oggetto locale wishlist
 		removeToWish = function(id){
 			that.wishList.remove(that.wishList.get(id));
-			toGlobal();
 			debWish();
 		};
 		
 		//invocato per ripulire tutto l'oggetto locale wishlist
 		clearWish = function(){
 			that.wishList.remove(that.wishList.models);
-			toGlobal();
 			debWish();
 		};
 		
+		//metodo per aggiornare la versione globale di wishlist
+		toGlobal = function(){
+			window.wishlist[settings.setCookie.name] = that.wishList;
+		};
+		
+		//METODI GESTIONE COOKIE WISHLIST
 		// invocato ogni volta che cambia l'oggetto locale wishlist
 		wishToCookie = function(){
 			$.cookie(settings.setCookie.name, JSON.stringify(that.wishList), { expires: settings.setCookie.expire, path: settings.setCookie.path });
@@ -130,14 +133,9 @@
 			debCookie();
 		};
 		
-		//metodo per aggiornare la versione globale di wishlist
-		toGlobal = function(){
-			window.wishlist[settings.setCookie.name] = that.wishList;
-		};
-		
 		//METODI DI MANIPOLAZIONE DEL DOM
-		
-		addItemList = function(data){
+		//incovato quando si aggiunge un elemento
+		addItemList = (typeof settings.addItemHtml == "function") ? settings.addItemHtml : function(data){
 			var rel = settings.setCookie.name;
 			var TAG = settings.itemType;
 			var list = "";
@@ -149,7 +147,8 @@
 			($("#item_"+data.id).length < 1) ? that.append(html) :  $("#item_"+data.id).replaceWith(html);
 		};
 		
-		removeItemList = function(id){
+		//incovato quando si rimuove un elemento
+		removeItemList = (typeof settings.removeItemHtml == "function") ? settings.removeItemHtml : function(id){
 			if(typeof id == "undefined"){
 				$("*[rel="+settings.setCookie.name+"]").fadeOut().remove();
 				return;
@@ -159,86 +158,120 @@
 		
 		//ALTRI METODI
 		//metodo che raccoglie tutte le da inserire nel modello backbone
-		picker = function(element){
-			
-			var data = element.data();
+		picker = (typeof settings.pickerOverride == "function") ? settings.pickerOverride : function(item){
+			var data = item.data();
 			return data;
 			//--> gestione elmenti multipli
 			
 		};
 		
-		//GESTORI DEGLI EVENTI
+		//GESTORI
+		
+		//gestore dell'evento di aggiunta
+		handlerAdd = (typeof settings.handlerAdd == "function") ? settings.handlerAdd : function(data){
+			addToWish(data);
+			addItemList(data);
+			toGlobal();
+		}
+		
+		//gestore dell'evento di rimozione
+		handlerRemove = (typeof settings.handlerRemove == "function") ? settings.handlerRemove : function(data){
+			removeToWish(data.id);
+			removeItemList(data.id);
+			toGlobal();
+		}
+		
+		//gestore dell'evento di pulizia
+		handlerClear = (typeof settings.handlerClear == "function") ? settings.handlerClear : function(){
+			clearWish();
+			removeItemList();
+		}
+		
+		//COLLECATORI DEI GESTORI AGLI EVENTI
 		
 		//metodo che definisce i trigger
-		setHandler = function(){
+		setAttHandler = function(){
 			$("."+settings.triggerClass).on(settings.triggerEvent[0]+".triggerEvent", function(event){
 				event.preventDefault();
-				//--> funzione da richiamare prima dell'evento.
 				
 				var data = picker($(this));
 				
 				/*debug*/ toConsole('i data presi', data);
 				
 				if($(this).hasClass(settings.addClass)){
-					addToWish(data);
-					addItemList(data);
-					//-->inserire la manipolazione qui
+					handlerAdd(data);
+					(typeof settings.onAddCallback == "function") ? settings.onAdd($(this), data) : null;
 					
 				}else{
-					removeToWish(data.id);
-					removeItemList(data.id);
-					//-->inserire la manipolazione qui
+					handlerRemove(data);
+					(typeof settings.onRemoveCallback == "function") ? settings.onRemoveCallback($(this), data) : null;
 				}
-
-				wishToCookie();
 				
-				//--> funzione callback
+				wishToCookie();
 			});
 			$("#"+settings.clearId).on(settings.triggerEvent[1]+".triggerClear", function(event){
 				event.preventDefault();
 				
-				//--> funzione da richiamare prima dell'evento clear.
+				(typeof settings.toClear == "function") ? settings.toClear($(this)) : null;
 				
-				clearWish();
+				handlerClear();
 				clearCookies();
-				removeItemList();
 				
-				//--> funzione callback
+				(typeof settings.onClearCallback == "function") ? settings.onClearCallback() : null;
 				
 			});
 		};
 		
-		unsetHandler = function(){
+		unsetAttHandler = function(){
 			toConsole("cookie", "disattivati! Attivali e riprova.");
 			$("#"+settings.clearId, "."+settings.triggerClass).on("click", function(){
 				alert(settings.text.noCookies);
 			});
 		};
 		
+		//metodo richiamato al load
+		wishLoad = (typeof settings.handlerLoad == "function") ? settings.handlerLoad : function(){
+			//rilevo il cookie
+			that.cookiesList = $.cookie(settings.setCookie.name);
+
+			//Definisco il model e la collection di backbone
+			that.wishCookie = Backbone.Model.extend(settings.BackboneModel);
+			settings.BackboneCollection.model = that.wishCookie; // (!!!!) sovrascrivo il model che deve per forza essere quello appena creato
+			that.wishCookies = Backbone.Collection.extend(settings.BackboneCollection);
+
+			//inizializzazione degli oggetti wishlist (locale e globale)
+			window.wishlist[settings.setCookie.name] = that.wishList = (!that.cookiesList || that.cookiesList == null) ? new that.wishCookies() : that.wishList = new that.wishCookies($.parseJSON(that.cookiesList));
+			debCookie();
+		};
+		
+		//metodo che stampa la lista al load del plugin
+		wishLoadHTML = (typeof settings.loadHtml == "function") ? settings.loadHtml : function(){
+			//stampo la lista nel documento HTML
+			that.wishList.forEach(function(value){
+				addItemList(value.attributes);
+			});
+		};
+		
 		//COSTRUTTORE
 		//controllo sulla possibilità di settare cookies se non posso prevengo tutti i click!
 		$.cookie('wishtest', 1, { path: '/' });
-		($.cookie('wishtest')) ? setHandler() : unsetHandler();
+		($.cookie('wishtest')) ? setAttHandler() : unsetAttHandler();
 		
-		//rilevo il cookie
-		that.cookiesList = $.cookie(settings.setCookie.name);
-		
-		//Definisco il model e la collection di backbone
-		that.wishCookie = Backbone.Model.extend(settings.BackboneModel);
-		settings.BackboneCollection.model = that.wishCookie; // (!!!!) sovrascrivo il model che deve per forza essere quello appena creato
-		that.wishCookies = Backbone.Collection.extend(settings.BackboneCollection);
-		
-		//inizializzazione degli oggetti wishlist (locale e globale)
-		window.wishlist[settings.setCookie.name] = that.wishList = (!that.cookiesList || that.cookiesList == null) ? new that.wishCookies() : that.wishList = new that.wishCookies($.parseJSON(that.cookiesList));
-		debCookie();
-		
-		//--> manipolatore al load - carico la lista
-		
-		that.wishList.forEach(function(value){
-			addItemList(value.attributes);
-		});
+		wishLoad();
+		wishLoadHTML();
+	
+		(typeof settings.onLoadCallback == "function") ? settings.onLoadCallback() : null;
 		
 		return this;
+	}
+	
+	// Funzione che restituisce la wishlist selezionata
+	$.getWishlist = function(name){
+		if(typeof name == "undefined"){
+			/* #DBmode */ (window.wishlist.debug) ? console.log("name arguments needed: ex. $.wishListToJSON('cookiename')") : null; 
+			return false;
+		}
+		return window.wishlist[name];
 	}
 	
 }( jQuery ));
