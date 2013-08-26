@@ -47,7 +47,7 @@ Global Variable, Method and Properties
 ---------
 
 `Wishlist` extend `$` with object some useful **properties** and **methods** accessible from window.
-Use those only befoure call `$(*someelement*).Wishlist()`.
+Use those only before call `$(*someelement*).Wishlist()`.
 
 #### Properties
 * ##### `window.whislist` #####
@@ -155,5 +155,54 @@ Local Method and Properties
 
 There are some local methods that allow to altering or extending the behavior of the plugin. By default all of this methods value is `null`, you can sat a function that override or extend the default behavior.
 
-**Important:** Up to *version **1.2.1*** this method not override method's behavior!
-**Methods override end extended documentation coming soon...**
+* #### Event handler override methods ####
+All of these methods **OVERRIDE** the reference event handler, **be careful:** these handler are the core of the plugin.
+    
+    * ##### `handlerLoad` #####
+    Override the load's handler, it's invoked when `wishtlis()` instance is fully loaded.
+
+    * ##### `handlerAdd` #####
+    Handler of add Event
+
+    * ##### `handlerRemove` #####
+    Handler of remove Event
+
+    * ##### `handlerClear` #####
+    Handler of clear Event
+
+* #### Middlewere ####
+This method are invoked in the event handler.
+    
+    * ##### `pickerOverride` #####
+    method invoked in the event handlers to **add** and **remove**, override the method recupro data from the DOM.
+
+    * ##### `toClear` #####
+     method invoked in **clear** event handler, not override but extend the handler
+
+* #### Override DOM manipulation ####
+  This methods only **override the part** of handler that manipulate the HTML of the document.
+    
+    * ##### `loadHtml` #####
+    Override the manipulation of html on load handler.
+
+    * ##### `addItemHtml` #####
+    Override the manipulation of html on Add handler.
+
+    * ##### `removeItemHtml` #####
+    Override the manipulation of html on Remove handler.
+
+* #### Mix Callback function ####
+  Those functions will be trigged after the reference handler.
+    
+    * ##### `onLoadCallback` #####
+    After Load handler.
+
+    * ##### `onAddCallback` #####
+    After Add handler.
+
+    * ##### `removeItemHtml` #####
+    After Remove handler.
+
+    * ##### `onClearCallback` #####
+    After Clear handler.
+    
