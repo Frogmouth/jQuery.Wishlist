@@ -9,7 +9,7 @@ How to use
 
 First include in your `<head>` the script:
 
-	<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 	<script type="text/javascript" src="http://underscorejs.org/underscore-min.js"></script>
 	<script type="text/javascript" src="http://backbonejs.org/backbone-min.js"></script>
 	
@@ -24,7 +24,7 @@ Now you can instance `.wishlist()`:
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			// #wishList is the <ul> tag that will contain the list of wished item <li>
+			// #wishList is the <div> tag that will contain the list of wished item <div>
 			$("#wishList").wishlist();
 		});
 	</script>
@@ -34,20 +34,20 @@ Now you can instance `.wishlist()`:
 A basic exaple to wishing an element by his ID:
 
 	<!-- wish button -->
-	<a class="wishAction addToWish" data-id="1" href="#">Add 1</a></li>
+	<a class="wishAction addToWish" data-id="1" href="#!">Add 1</a></li>
 	
 	<!-- wished list -->
-	<ul id="wishList">
-	</ul>
+	<div id="wishList">
+	</div>
 	
 	<!-- clear wish list -->
-	<a id="clearWish" href="#!/ClearWishlist">Pulisi Lista</a>
+	<a id="clearWish" href="#!">Pulisi Lista</a>
 	
 Global Variable, Method and Properties
 ---------
 
-`Wishlist` extend `$` object some useful **properties** and **methods** accessible to window.
-Use those only befoure call `$(someelement).Wishlist()`.
+`Wishlist` extend `$` with object some useful **properties** and **methods** accessible from window.
+Use those only befoure call `$(*someelement*).Wishlist()`.
 
 #### Properties
 * ##### `window.whislist` #####
@@ -73,6 +73,7 @@ Use those only befoure call `$(someelement).Wishlist()`.
 	+   **Definition** : a function to get the data in the cookie (select by cookie name) in JSON format.
 	+   **Attributes** : `name`
 	+   **return** : JSON object
+    +   **avablility** : from **1.2.2 version**
 	
 
 Local Method and Properties
@@ -85,10 +86,10 @@ Local Method and Properties
 	});
 
 ####Properties
-* ##### `cookieName` #####
+* ##### `setCookie` #####
 
-	+   **Definition** : name of the cookies that contain information
-	+   **Default** : `that.attr("id")` - DOM element id attribute
+	+   **Definition** : json object that contain cookie information
+	+   **Default** : `{ name : that.attr("id"), exipred : 365, path : "/"}`
 
 * #####`BackboneModel` #####
 
@@ -99,6 +100,8 @@ Local Method and Properties
 
 	+   **Definition** : Backbone Collection that containall wishlist Model
 	+   **Default** :  `{}`
+    
+        **Important: `modal` _property of this object will be overwritten_**
 
 * #####`removeClass` #####
 
@@ -119,6 +122,19 @@ Local Method and Properties
 
 	+   **Definition** : id which bind for clear wishlist
 	+   **Default** :  `"clearWish"`
+    
+* #####`itemType`#####
+
+    +   **Definition** : tag taht wrap the cookies information when printed
+	+   **Default** :  `div`
+    
+* #####`template`#####
+
+    +   **Definition** : underscore template uses for display the information
+	+   **Default** :  `null`
+    
+        **Important: _unavailable, it's a future update._**
+
 
 * #####`triggerEvent`#####
 
@@ -134,3 +150,10 @@ Local Method and Properties
 
 	+   **Definition** : Testi di default
 	+   **Default** :  `{ noCookies : "Questa funzione è utilizzabile solo con cookies attivi.", add : "Aggiungi ",remove : "Rimuovi "}`
+
+####Method
+
+There are some local methods that allow to altering or extending the behavior of the plugin. By default all of this methods value is `null`, you can sat a function that override or extend the default behavior.
+
+**Important:** Up to *version **1.2.1*** this method not override method's behavior!
+**Methods override end extended documentation coming soon...**
