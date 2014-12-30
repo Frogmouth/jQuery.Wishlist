@@ -56,9 +56,9 @@ A basic exaple to wishing an element by his ID:
 References
 ---------
 
- + ###[$.whislist()](#wishlist)
- + ###[$.fn.wishBar()](#wishbar)
- + ###[$.fn.wishItem()](#wishitem)
+ + [$.whislist()](#wishlist)
+ + [$.fn.wishBar()](#wishbar)
+ + [$.fn.wishItem()](#wishitem)
 
 --- 
 
