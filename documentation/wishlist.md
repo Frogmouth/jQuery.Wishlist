@@ -20,12 +20,11 @@ First include in your `<head>` the script:
 	<!-- lastone jquery Wishlist libs -->
 	<script type="text/javascript" src="/path/to/jquery_wish.js"></script>`
 
-Now you can instance `.wishlist()`: 
+Now you can instance `$.wishlist(ID)`, `ID` is an unique alphanumeric String, that represents a particular wishlist: 
 
 	<script type="text/javascript">
 		$(document).ready(function(){
-			// #wishList is the <div> tag that will contain the list of wished item <div>
-			$("#wishList").wishlist();
+			$.wishlist("Wishlist");
 		});
 	</script>
 
@@ -33,76 +32,196 @@ Now you can instance `.wishlist()`:
 
 A basic exaple to wishing an element by his ID:
 
-	<!-- wish button -->
-	<a class="wishAction addToWish" data-id="1" href="#!">Add 1</a></li>
+	<!-- wish counter -->
+	<a class="wishCounter">0</a>
+
+	<!-- clear wish list -->
+	<a id="clearWish" href="#!">Clean Wishlist</a>
 	
+	<!-- wish ITEMS -->
+	<div class="item wishItem">
+		<a class="wishAction addToWish" data-title="Foo" data-id="1" href="#">ADD Foo to wishlist</a>
+	</div>
+	<div class="item wishItem">
+		<a class="wishAction addToWish" data-title="Fish" data-id="2" href="#">ADD Fish to wishlist</a>
+	</div>
+	<div class="item wishItem">
+		<a class="wishAction addToWish" data-title="Mug" data-id="10" href="#">ADD Mug to wishlist</a>
+	</div>
+
 	<!-- wished list -->
 	<div id="wishList">
 	</div>
 	
-	<!-- clear wish list -->
-	<a id="clearWish" href="#!">Pulisi Lista</a>
-	
-Global Variable, Method and Properties
+References
 ---------
 
-`Wishlist` extend `$` with object some useful **properties** and **methods** accessible from window.
-Use those only before call `$(*someelement*).Wishlist()`.
+ + ###[$.whislist()](#wishlist)
+ + ###[$.fn.wishBar()](#wishbar)
+ + ###[$.fn.wishItem()](#wishitem)
 
-#### Properties
-* ##### `window.whislist` #####
+--- 
 
-	+   **Definition** : a object that contain all wishlist global settings and all Backbone collection create every time call new `whislist()`
-	+   **Default** : `{}`
-	+   **Object properties** :
-	
-		- **`debug`** 
-		
-			+   **Definition** : active the global wishlist debug for visualize the global error log {if active IE become not supported}
-			+   **Default** : `false`
-			
-		-  **{Cookie Name}**
-		
-			+   **Definition** : every time you call `whislist()` the plug in store in `window.whislist[*cookieName*]` a Backbone collection with all element preset inside the wishlist.
-			+   **Default** : [Backbone Collection](http://backbonejs.org/#Collection 'See Domcumentation')
+### Wishlist
+`$.whislist(ID [,options])`
 
+**Return** : [_object_] return a new wishlist instance	
 
-#### Methods
-* ##### `$.wishListToJSON` #####
-
-	+   **Definition** : a function to get the data in the cookie (select by cookie name) in JSON format.
-	+   **Attributes** : `name`
-	+   **return** : JSON object
-    +   **avablility** : from **1.2.2 version**
-	
-
-Local Method and Properties
----------
-
-`Wishlist` allowe some useful **properties** and **methods** for customize the pluing's local behavior.
-
-	$(someelement).Wishlist({
+	$.Wishlist(ID,{
 		//insert here properties and methods for override it
 	});
 
+- `ID` [**required**] : is an unique alpanumeric string that represents a particular wishlist
+
+- `options` [_optional_] : is an object that extend the default properties of wishlist and methods 
+
 ####Properties
-* ##### `setCookie` #####
 
-	+   **Definition** : json object that contain cookie information
-	+   **Default** : `{ name : that.attr("id"), exipred : 365, path : "/"}`
+* ##### `useStorage` #####
 
-* #####`BackboneModel` #####
+	+   **Definition** : allowe to force the use of localStorage instead Cookie
+	+	**Value** : true/false
+	+   **Default** : `(typeof localStorage === "undefined") ? false : true`
 
-	+   **Definition** : Backbone model that represents Wishlist item
-	+   **Default** :  `{ defaults : { id : null, } }`
+* #####`storegeName` #####
 
-* #####`BackboneCollection` #####
+	+   **Definition** : allowe you to force the name (ID) of your wishlist
+	+   **Default** :  `ID` - ID passed like attribute of `$.wishlist()`
 
-	+   **Definition** : Backbone Collection that containall wishlist Model
-	+   **Default** :  `{}`
+* #####`setCookie` #####
+
+	+   **Definition** : The property of cookie
+	+   **Default** :  
+			{
+				name : ID, //ID passed like attribute $.wishlist()
+				expire : 365,
+				path : "/"
+			}
     
         **Important: `modal` _property of this object will be overwritten_**
 
+* #####`BackboneModel` #####
+
+	+   **Definition** : object that extends the Backbone model
+	+   **Default** :  
+			{
+				defaults : {
+					id : null,
+					title : null,
+					img : null
+				}
+			}
+
+* #####`BackboneCollection` #####
+
+	+   **Definition** : object that extends the Backbone collection, by default the attributes `model` of beckbone collection is the `BackboneModel`
+	+   **Default** :  `{}`
+
+* #####`useCustomElements` #####
+
+	+   **Definition** : allow you to force the plugin to ignore the default elements rendered by wishlist
+	+   **Default** :  `false`
+
+* #####`$wishBar` #####
+
+	+   **Definition** : a jquery selector of a DOM element where render the list of wished item
+	+   **Default** : `$(".wishItem")`
+
+* #####`$wishItem` #####
+
+	+   **Definition** : a jquery selector of DOM elements that rapresents the elemen to wish
+	+   **Default** : `$("#wishList")`
+
+* #####`barOptions` #####
+
+	+   **Definition** : an object that override the default option of wishlist bar
+	+   **Default** :  `{}`
+	+	**REF** : [$.fn.wishBar()](#wishbar)
+
+* #####`itemOptions` #####
+
+	+   **Definition** : an object that override the default option of wishlist items
+	+   **Default** : `{}`
+	+	**REF** : [$.fn.wishItem()](#wishitem)
+
+
+* #####`counterClass` #####
+
+	+   **Definition** : the name of the class where wishlist place the number of the elements inside the wishlist
+	+   **Default** :  `"wishCounter"`
+
+* #####`clearId` #####
+
+	+   **Definition** : id which bind for clear wishlist
+	+   **Default** :  `"clearWish"`
+
+* #####`text` #####
+
+	+   **Definition** : Testi di default
+	+   **Default** :
+			{
+				noStorage : "Questa funzione &egrave; utilizzabile solo con cookies attivi",
+				add : "Aggiungi ",
+				remove : "Rimuovi "
+			}
+
+ ####Methods
+
+	There are some local methods that allow to altering or extending the behavior of the plugin. By default all of this methods value is `null`, you can sat a function that override or extend the default behavior.
+	    
+	* ##### `onLoad()` #####
+		+   **Definition** : invoked when the wishlist was loaded
+		+   **Default** : `null`
+		+	**Context** : wishlist inscance
+
+	* ##### `onClean` #####
+		+   **Definition** : invoked when the wishlist was cleaning
+		+   **Default** : `null`
+		+	**Context** : wishlist inscance
+
+	* ##### `onChange(actionName,model,collection)` #####
+		+   **Definition** : invoked when add or remove some element on wishlist
+		+   **Default** : `null`
+		+	**Context** : wishlist inscance
+		+	**attributes** : 
+			* `actionName` : **[String]** `"add"` `"remove"`
+			* `model` : **[Backbone model object]**
+			* `collection` : **[Backbone Collection object]**
+
+--- 
+
+### WishBar
+`$.fn.wishBar(WISHLIST [,options])`
+	
+- `WISHLIST` [**required**] : is the Wishlist istance
+- `options` [_optional_] : is an object that extend the default properties and methods
+
+####Properties
+* #####`template`#####
+
+    +   **Definition** : underscore template uses for display the information
+	+   **Default** :  `"<div rel='"+WISHLIST.ID+"' id='wishItem_<%- id %>' class='wishedItem' data-id='<%- id %>'><img src='<%- img %>'><p><%- title %></p></div>",`
+    
+####Method
+* ##### `addItemHtml` #####
+	+   **Definition** : this function override the default method uses for generate and place the element inside of wishbar 
+	+	**Attributes** :
+		- `data` [object] the attributes of the model added to wishbar 
+
+* ##### `removeItemHtml` #####
+	+   **Definition** : this function override the default method to remove an element inside the wishbar
+	+	**Attributes** :
+		- `id` [object] the id of the element to remove from wishbar 
+
+--- 
+
+### WishItem
+`$.fn.wishItem(WISHLIST [,options])`
+	
+- `WISHLIST` [**required**] : is the Wishlist istance
+- `options` [_optional_] : is an object that extend the default properties and methods
+	
+####Properties
 * #####`removeClass` #####
 
 	+   **Definition** : class which bind the event for remove some elment to wishlist
@@ -118,91 +237,22 @@ Local Method and Properties
 	+   **Definition** : class which bind all edit event
 	+   **Default** :  `"wishAction"`
 
-* #####`clearId` #####
-
-	+   **Definition** : id which bind for clear wishlist
-	+   **Default** :  `"clearWish"`
-    
-* #####`itemType`#####
-
-    +   **Definition** : tag taht wrap the cookies information when printed
-	+   **Default** :  `div`
-    
-* #####`template`#####
-
-    +   **Definition** : underscore template uses for display the information
-	+   **Default** :  `null`
-    
-        **Important: _unavailable, it's a future update._**
-
-
 * #####`triggerEvent`#####
 
-	+   **Definition** : binded type event [0] -> add event [1] -> remove event
-	+   **Default** :  `["click", "click"]`
+	+   **Definition** : binded event type 
+	+   **Default** :  `"click"`
 
-* #####`debug` #####
+* #####`sameButton`#####
 
-	+   **Definition** : debug mode, show return information on browser console (not use in IE)
-	+   **Default** :  `false`
-
-* #####`text` #####
-
-	+   **Definition** : Testi di default
-	+   **Default** :  `{ noCookies : "Questa funzione è utilizzabile solo con cookies attivi.", add : "Aggiungi ",remove : "Rimuovi "}`
+	+   **Definition** : use same element to add and remove item from wishlist
+	+   **Default** :  `true`
 
 ####Method
+ * ##### `picker(item)` #####
+	+   **Definition** : this function override the default method to pick the data when click for "ADD" an element
+	+   **Attributes** : 
+		- `item`: jquery object that rapresent the clicked element
 
-There are some local methods that allow to altering or extending the behavior of the plugin. By default all of this methods value is `null`, you can sat a function that override or extend the default behavior.
+--- 
 
-* #### Event handler override methods ####
-All of these methods **OVERRIDE** the reference event handler, **be careful:** these handler are the core of the plugin.
-    
-    * ##### `handlerLoad` #####
-    Override the load's handler, it's invoked when `wishtlis()` instance is fully loaded.
 
-    * ##### `handlerAdd` #####
-    Handler of add Event
-
-    * ##### `handlerRemove` #####
-    Handler of remove Event
-
-    * ##### `handlerClear` #####
-    Handler of clear Event
-
-* #### Middlewere ####
-This method are invoked in the event handler.
-    
-    * ##### `pickerOverride` #####
-    method invoked in the event handlers to **add** and **remove**, override the method recupro data from the DOM.
-
-    * ##### `toClear` #####
-     method invoked in **clear** event handler, not override but extend the handler
-
-* #### Override DOM manipulation ####
-  This methods only **override the part** of handler that manipulate the HTML of the document.
-    
-    * ##### `loadHtml` #####
-    Override the manipulation of html on load handler.
-
-    * ##### `addItemHtml` #####
-    Override the manipulation of html on Add handler.
-
-    * ##### `removeItemHtml` #####
-    Override the manipulation of html on Remove handler.
-
-* #### Mix Callback function ####
-  Those functions will be trigged after the reference handler.
-    
-    * ##### `onLoadCallback` #####
-    After Load handler.
-
-    * ##### `onAddCallback` #####
-    After Add handler.
-
-    * ##### `removeItemHtml` #####
-    After Remove handler.
-
-    * ##### `onClearCallback` #####
-    After Clear handler.
-    

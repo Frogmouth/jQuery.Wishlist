@@ -1,0 +1,251 @@
+/* line 5, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font: inherit;
+  font-size: 100%;
+  vertical-align: baseline;
+}
+
+/* line 22, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+html {
+  line-height: 1;
+}
+
+/* line 24, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+ol, ul {
+  list-style: none;
+}
+
+/* line 26, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 28, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+caption, th, td {
+  text-align: left;
+  font-weight: normal;
+  vertical-align: middle;
+}
+
+/* line 30, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+q, blockquote {
+  quotes: none;
+}
+/* line 103, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+q:before, q:after, blockquote:before, blockquote:after {
+  content: "";
+  content: none;
+}
+
+/* line 32, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+a img {
+  border: none;
+}
+
+/* line 116, ../../../../../../../../Library/Ruby/Gems/2.0.0/gems/compass-core-1.0.1/stylesheets/compass/reset/_utilities.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+  display: block;
+}
+
+/* line 4, ../sass/index.scss */
+body {
+  font-size: 14px;
+  font-family: "verdanda", sans-serif;
+}
+
+/* line 9, ../sass/index.scss */
+body * {
+  box-sizing: border-box;
+}
+
+/* line 12, ../sass/index.scss */
+.wrapper {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+/* line 16, ../sass/index.scss */
+.header {
+  width: 100%;
+  float: left;
+  background-color: #5184D5;
+  border-bottom: solid 1px #417DDD;
+  padding: 10px;
+  color: white;
+}
+/* line 23, ../sass/index.scss */
+.header h2 {
+  font-size: 2em;
+}
+
+/* line 27, ../sass/index.scss */
+.content {
+  width: 100%;
+  float: left;
+  background-color: #f1f1f1;
+}
+/* line 31, ../sass/index.scss */
+.content .page {
+  padding: 20px;
+  float: left;
+  width: 100%;
+}
+
+/* line 37, ../sass/index.scss */
+.userbar {
+  padding: 5px 10px;
+  background-color: #ccc;
+  border-top: solid 1px #DBD8D8;
+  border-bottom: solid 1px #c1c1c1;
+  float: left;
+  width: 100%;
+}
+/* line 44, ../sass/index.scss */
+.userbar .right {
+  float: right;
+}
+
+/* line 48, ../sass/index.scss */
+.wishCounter {
+  background: url("../img/heart.png") no-repeat center center transparent;
+  height: 32px;
+  width: 36px;
+  display: block;
+  text-align: center;
+  line-height: 32px;
+  font-weight: bold;
+  color: #333;
+  float: left;
+  margin-left: 10px;
+}
+
+/* line 60, ../sass/index.scss */
+.trashIcon {
+  padding: 2px 7px 2px 30px;
+  font-size: 10px;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  height: 36px;
+  line-height: 32px;
+  float: right;
+  color: #333;
+  background: url("../img/trash.png") no-repeat center left white;
+  margin: 10px 0;
+  border: solid 1px #999;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 75, ../sass/index.scss */
+.trashIcon:hover {
+  -moz-box-shadow: 1px 1px 2px 0px #C0C0C0 inset;
+  -webkit-box-shadow: 1px 1px 2px 0px #C0C0C0 inset;
+  box-shadow: 1px 1px 2px 0px #C0C0C0 inset;
+  background-color: #f0f0f0;
+}
+
+/* line 81, ../sass/index.scss */
+.item {
+  margin: 10px;
+  border: solid 2px #666;
+  position: relative;
+  float: left;
+}
+/* line 87, ../sass/index.scss */
+.item .wishAction {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #f1f1f1;
+  border: solid 0 #666;
+  border-width: 0 0 1px 1px;
+  padding: 0 5px;
+  color: #333;
+  text-decoration: none;
+  line-height: 24px;
+  font-size: 20px;
+  font-weight: bold;
+  -moz-border-radius: 0 0 0 5px;
+  -webkit-border-radius: 0;
+  border-radius: 0 0 0 5px;
+}
+/* line 102, ../sass/index.scss */
+.item .wishAction:hover {
+  background-color: #5184D5;
+  color: white;
+  border-color: #417DDD;
+}
+/* line 108, ../sass/index.scss */
+.item h5 {
+  background-color: #5184D5;
+  color: white;
+  line-height: 32px;
+  font-size: 18px;
+  text-align: center;
+  border-top: solid 1px #264679;
+}
+
+/* line 119, ../sass/index.scss */
+.addToWish:after {
+  content: "+";
+}
+
+/* line 124, ../sass/index.scss */
+.removeToWish:after {
+  content: "-";
+}
+
+/* line 129, ../sass/index.scss */
+.wishBar {
+  float: left;
+  width: 100%;
+  background-color: #c9c9c9;
+  border-top: solid 1px #bbb;
+  padding: 10px;
+}
+/* line 135, ../sass/index.scss */
+.wishBar .wishedItem {
+  float: left;
+  margin-right: 5px;
+  min-width: 150px;
+  padding: 2px 0 2px 10px;
+  margin-left: 5px;
+  border-left: solid 1px #999;
+}
+/* line 143, ../sass/index.scss */
+.wishBar .wishedItem img {
+  width: 70px;
+  height: auto;
+  margin: 0 5px 5px 0;
+  float: left;
+}
+/* line 149, ../sass/index.scss */
+.wishBar .wishedItem p {
+  padding: 5px 0;
+  font-size: 12px;
+  text-align: center;
+  float: left;
+}
+/* line 155, ../sass/index.scss */
+.wishBar .wishedItem:first-child {
+  margin-right: 0;
+  padding-left: 0;
+  border-width: 0;
+}

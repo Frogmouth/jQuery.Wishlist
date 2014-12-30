@@ -5,31 +5,52 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Simple Wish List example</title>
 	<meta name="author" content="simone luise">
-	<script type="text/javascript" src="js/jq.js"></script>
-	<script type="text/javascript" src="js/jquery_cookies.js"></script>
-	<script type="text/javascript" src="js/json2.js"></script>
-	<script type="text/javascript" src="js/underscore.js"></script>
-	<script type="text/javascript" src="js/backbone.js"></script>
-	<script type="text/javascript" src="js/jquery-wishlist.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#wishList").wishlist({
-				debug : true //see console
-			});
-		});
-	</script>
+	<link rel="stylesheet" href="libs/css/index.css">
+	<script type="text/javascript" src="libs/js/jq.js"></script>
+	<script type="text/javascript" src="libs/js/jquery_cookies.js"></script>
+	<script type="text/javascript" src="libs/js/json2.js"></script>
+	<script type="text/javascript" src="libs/js/underscore.js"></script>
+	<script type="text/javascript" src="libs/js/backbone.js"></script>
+	<script type="text/javascript" src="libs/js/jquery-wishlist.js"></script>
 </head>
 <body>
-	<!-- wish button -->
-	<a class="wishAction addToWish" data-id="1" href="#">Aggiungi 1</a></li>
-	<a class="wishAction addToWish" data-id="2" href="#">Aggiungi 2</a></li>
-
-	<div id="wishList">
-		<!-- list of wished item -->
+	<div class="wrapper">
+		<div class="header">
+			<h2>jQuery Wishlist - Example</h2>
+		</div>
+		<div class="content">
+			<div class="userbar">
+				<div class="right">
+					<a class="wishCounter">0</a>
+				</div>
+			</div>
+			<div class="page">
+				<div class="item wishItem">
+					<img src="images/mestolo.jpg">
+					<a class="wishAction addToWish" data-img="images/mestolo.jpg" data-title="Mestolo" data-id="1" href="#"></a>
+					<h5>Mestolo</h5>
+				</div>
+				<div class="item wishItem">
+					<img src="images/contenitore.jpg">
+					<a class="wishAction addToWish" data-img="images/contenitore.jpg" data-title="Contenitore" data-id="2" href="#"></a>
+					<h5>Contenitore</h5>
+				</div>
+				<div class="item wishItem">
+					<img src="images/coperchio.jpg">
+					<a class="wishAction addToWish" data-img="images/coperchio.jpg" data-title="Coperchio" data-id="9" href="#"></a>
+					<h5>Coperchio</h5>
+				</div>
+			</div>
+			<div class="wishBar">
+				<a id="clearWish" class="trashIcon" title="Remove All" href="#">Remove</a>
+				<div id="wishList"><!-- list of wished item --></div>
+			</div>
+		</div>
 	</div>
-	
-	<!-- clear Button -->
-	<a id="clearWish" href="#">Pulisci Lista</a>
-	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			window.MYwishlist = $.Wishlist("wishlist");
+		});
+	</script>	
 </body>
 </html>
