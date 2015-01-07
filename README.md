@@ -5,7 +5,7 @@ jQuery.Wishlist
 
 A simple jquery plugin for manage a wishlist with cookies and without registration needed.
 
-### Current Version: 1.3 Beta
+### Current Version: 1.3.1
 
 Requirements
 ---------------------
@@ -35,7 +35,7 @@ Done and To do list:
 **DONE:**
 
 - NEW 1.3 version (deep rebuild)
-- Implement **localStorage** as an alternative of COOKIE
+- Implement **localStorage** as an alternative of COOKIE (using cookie only for send items id to backend)
 - a NEW Working example
 - wishlist bar
 - wishlist item
@@ -54,7 +54,7 @@ Done and To do list:
 - Integrate the ability to communicate with a server ( _REST_ ) via Backbone
 
 Quick start:
----------------------
+---
 
 Calls inside document ready `$.Wishlist(ID)` where `ID` is a unique string that represents the ID of your wishlist, in every page the ID must be the same to get the wishlist item.
 

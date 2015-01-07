@@ -136,8 +136,13 @@ body * {
 }
 
 /* line 60, ../sass/index.scss */
-.trashIcon {
-  padding: 2px 7px 2px 30px;
+.WB_righSide {
+  float: right;
+}
+/* line 63, ../sass/index.scss */
+.WB_righSide a {
+  background: none no-repeat center left white;
+  padding: 2px 7px;
   font-size: 10px;
   text-decoration: none;
   text-transform: uppercase;
@@ -146,29 +151,34 @@ body * {
   line-height: 32px;
   float: right;
   color: #333;
-  background: url("../img/trash.png") no-repeat center left white;
-  margin: 10px 0;
+  margin-bottom: 5px;
   border: solid 1px #999;
+  clear: both;
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 75, ../sass/index.scss */
-.trashIcon:hover {
+/* line 79, ../sass/index.scss */
+.WB_righSide a:hover {
   -moz-box-shadow: 1px 1px 2px 0px #C0C0C0 inset;
   -webkit-box-shadow: 1px 1px 2px 0px #C0C0C0 inset;
   box-shadow: 1px 1px 2px 0px #C0C0C0 inset;
   background-color: #f0f0f0;
 }
+/* line 84, ../sass/index.scss */
+.WB_righSide a.trashIcon {
+  background: url("../img/trash.png") no-repeat center left white;
+  padding-left: 30px;
+}
 
-/* line 81, ../sass/index.scss */
+/* line 91, ../sass/index.scss */
 .item {
   margin: 10px;
   border: solid 2px #666;
   position: relative;
   float: left;
 }
-/* line 87, ../sass/index.scss */
+/* line 97, ../sass/index.scss */
 .item .wishAction {
   position: absolute;
   top: 0;
@@ -186,13 +196,13 @@ body * {
   -webkit-border-radius: 0;
   border-radius: 0 0 0 5px;
 }
-/* line 102, ../sass/index.scss */
+/* line 112, ../sass/index.scss */
 .item .wishAction:hover {
   background-color: #5184D5;
   color: white;
   border-color: #417DDD;
 }
-/* line 108, ../sass/index.scss */
+/* line 118, ../sass/index.scss */
 .item h5 {
   background-color: #5184D5;
   color: white;
@@ -202,17 +212,17 @@ body * {
   border-top: solid 1px #264679;
 }
 
-/* line 119, ../sass/index.scss */
+/* line 129, ../sass/index.scss */
 .addToWish:after {
   content: "+";
 }
 
-/* line 124, ../sass/index.scss */
+/* line 134, ../sass/index.scss */
 .removeToWish:after {
   content: "-";
 }
 
-/* line 129, ../sass/index.scss */
+/* line 139, ../sass/index.scss */
 .wishBar {
   float: left;
   width: 100%;
@@ -220,7 +230,7 @@ body * {
   border-top: solid 1px #bbb;
   padding: 10px;
 }
-/* line 135, ../sass/index.scss */
+/* line 145, ../sass/index.scss */
 .wishBar .wishedItem {
   float: left;
   margin-right: 5px;
@@ -229,23 +239,73 @@ body * {
   margin-left: 5px;
   border-left: solid 1px #999;
 }
-/* line 143, ../sass/index.scss */
+/* line 153, ../sass/index.scss */
 .wishBar .wishedItem img {
   width: 70px;
   height: auto;
   margin: 0 5px 5px 0;
   float: left;
 }
-/* line 149, ../sass/index.scss */
+/* line 159, ../sass/index.scss */
 .wishBar .wishedItem p {
   padding: 5px 0;
   font-size: 12px;
   text-align: center;
   float: left;
 }
-/* line 155, ../sass/index.scss */
+/* line 165, ../sass/index.scss */
 .wishBar .wishedItem:first-child {
   margin-right: 0;
   padding-left: 0;
   border-width: 0;
+}
+
+/* line 174, ../sass/index.scss */
+.listing .item {
+  margin: 10px;
+  border: solid 0 #666;
+  position: relative;
+  float: left;
+}
+/* line 181, ../sass/index.scss */
+.listing .item .error a {
+  color: #5184D5;
+}
+/* line 183, ../sass/index.scss */
+.listing .item .error a:hover {
+  color: #333;
+}
+/* line 189, ../sass/index.scss */
+.listing .item img {
+  float: left;
+  margin: 0 10px 10px 0;
+  border: solid 2px #666;
+}
+/* line 195, ../sass/index.scss */
+.listing .item h5 {
+  background-color: transparent;
+  color: #5184D5;
+  line-height: 32px;
+  font-size: 18px;
+  text-align: left;
+  border-top: solid 0px #264679;
+}
+/* line 204, ../sass/index.scss */
+.listing .item .wishAction {
+  position: relative;
+  top: auto;
+  left: auto;
+  right: auto;
+  background-color: transparent;
+  border: solid 1px #ccc;
+  color: #999;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 214, ../sass/index.scss */
+.listing .item .wishAction:hover {
+  background-color: #5184D5;
+  color: white;
+  border-color: #417DDD;
 }

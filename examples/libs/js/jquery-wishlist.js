@@ -1,5 +1,5 @@
 /* 
- *	Last Version 1.3 by Simone Luise - infoWishlist@simoneluise.com
+ *	Last Version 1.3.1 by Simone Luise - infoWishlist@simoneluise.com
  */
 
 (function($){
@@ -26,37 +26,45 @@
 			triggerClass : "wishAction",			// classe statica su cui bindare tutti gli eventi di modifica
 			sameButton : true,						// usare lo stesso bottone per aggiungere e rimuovere gli elementi
 			triggerEvent : "click",					// eventi sui quali bindare [0] -> aggiunta e [1] -> rimozione di elementi del cookies
-			picker : null							// funzione che sovrascrive il metodo di raccolta delle informazioni
+			picker : null,							// funzione che sovrascrive il metodo di raccolta delle informazioni
+
+			//override methods
+
+			onRemove : null,
+			onAdd : null,
+			onClean : null
+
 		},options);
 
 		//ALTRI METODI
 		//metodo che raccoglie tutte le da inserire nel modello backbone
-		this.picker = (typeof settings.pickerOverride == "function") ? settings.picker : function(item){
-
+		var picker =  settings.picker || function(item){
 			//per il local storage prendo tutti i dati per i cookie solo l'ID
 			var data = (WISHLIST.settings.useStorage) ? item.data() : {id:item.data("id")};
-			/*debug*/ toConsole('i data presi', data);
 			return data;
 			//--> gestione elmenti multipli
 		}
-
-		this.changeAdd = function(){
-			try{
-				if(that.wishList.length < 1) return false
-				that.wishList.each(function(a){
-					$("[data-id="+a.id+"]").removeClass("addToWish").addClass("removeToWish");
-				});
-			}catch(err){return false}
-		}
 		
 		//COLLECATORI DEI GESTORI AGLI EVENTI
-		
+
 		//metodo che definisce i trigger
-		unsetAttHandler = function(){
+		var unsetAttHandler = function(){
 			$that.addClass("wishDisabled");
 			$that.on("click",function(){
 				console.log("COOKIE DISABLED");
 			});
+		}
+
+		var defOnClean = settings.onClean || function(){
+			$that.find("."+settings.triggerClass).addClass($that.settings.addClass).removeClass($that.settings.removeClass);
+		}
+
+		var defOnAdd = settings.onAdd || function(item){
+			$that.find("[data-id="+item.id+"]").addClass($that.settings.addClass).removeClass($that.settings.removeClass);
+		}
+
+		var defOnRemove = settings.onRemove || function(item){
+			$that.find("[data-id="+item.id+"]").removeClass($that.settings.addClass).addClass($that.settings.removeClass);
 		}
 
 		if(settings.useStorage){
@@ -70,11 +78,11 @@
 
 		WISHLIST.propagate.wishItem = function(action,item){
 			switch(action){
-				case "remove" : $that.find("[data-id="+item.id+"]").removeClass($that.settings.addClass).addClass($that.settings.removeClass);
+				case "remove" : defOnRemove(item);
 				break;
-				case "add" : $that.find("[data-id="+item.id+"]").addClass($that.settings.addClass).removeClass($that.settings.removeClass);
+				case "add" : defOnAdd(item);
 				break;
-				case "reset" : $that.find("."+settings.triggerClass).addClass($that.settings.addClass).removeClass($that.settings.removeClass);
+				case "reset" : defOnClean();
 				break;
 			}
 		}
@@ -84,7 +92,7 @@
 			if(typeof WISHLIST.data.get($(this).find("."+settings.triggerClass).data("id")) !== "undefined") $(this).find("."+settings.triggerClass).removeClass(settings.addClass).addClass(settings.removeClass);
 			$(this).on(settings.triggerEvent + ".wish","."+settings.triggerClass, function(event){
 				event.preventDefault();
-				var data = $that.picker($(this));
+				var data = picker($(this));
 
 				if($(this).hasClass(settings.addClass)){
 					WISHLIST.addToWish(data);
@@ -114,14 +122,14 @@
 		
 		//METODI DI MANIPOLAZIONE DEL DOM
 		//invocato quando si aggiunge un elemento
-		this.itemList = (typeof settings.addItemHtml == "function") ? settings.addItemHtml : function(data){
+		var itemList = settings.addItemHtml || function(data){
 			var tmpl = _.template(settings.template);
 			var wishedHtml = tmpl(data);
 			that.append(wishedHtml);
 		}
 		
 		//invocato quando si rimuove un elemento
-		this.removeItem = (typeof settings.removeItemHtml == "function") ? settings.removeItemHtml : function(id){
+		var removeItem = settings.removeItemHtml || function(id){
 			if(typeof id == "undefined"){
 				$("*[rel="+WISHLIST.ID+"]").fadeOut().remove();
 				return;
@@ -131,18 +139,18 @@
 
 		WISHLIST.propagate.wishBar = function(action,item){
 			switch(action){
-				case "remove" : that.removeItem(item.id);
+				case "remove" : removeItem(item.id);
 				break;
-				case "add" : that.itemList(item);
+				case "add" : itemList(item);
 				break;
-				case "reset" : that.removeItem();
+				case "reset" : removeItem();
 				break;
 			}
 		}
 
 		that.data("wishList",WISHLIST);
 		WISHLIST.data.forEach(function(value){
-			that.itemList(value.attributes);
+			itemList(value.attributes);
 		});
 		
 		return this;
@@ -165,6 +173,7 @@
 			clearId : "clearWish",					// classe su cui bindare l'evento di l'eliminazione del cookie
 			//a parte il cookie possiamo usare i webstorage
 			useStorage : (typeof localStorage === "undefined")?false:true,	
+			storeID : (typeof localStorage === "undefined")?false:true,
 
 			storegeName : ID,			//nome con il quale verrà salvata la wishlist nel local storage
 			setCookie : {
@@ -185,14 +194,11 @@
 			onClean : null,				// ... prima del gestore di pulizia della wishlist estendendolo
 			onLoad : null,				// ... dopo il costruttore 
 			onChange : null,			// ... dopo il gestore dell'evento di modifica della collection
-
-			//altre properieta secondarie
-			debug : false,				// controllo modalità debug {tramite console.log - NON ATTIVARE SE SI USA IE} sovrascrive la generale all'interno dell'esecuzione del plugin
 			
 			text : {
-				noStorage : "Questa funzione &egrave; utilizzabile solo se hai attivi i cookie o il LocalStorage.",
-				add : "Aggiungi ",
-				remove : "Rimuovi "
+				noStorage : "Wishlist needs cookie enabled.",
+				add : "Add ",
+				remove : "Remove "
 			}
 		},options);
 
@@ -225,54 +231,63 @@
 		//metodi utilizzati per gestire lo store dei dati nei cookie piuttosto che nel localStorage
 
 		WISHLIST.loadStorage = function(){
-			var res = (settings.useStorage) ? WISHLIST.loadLocalStorage() : WISHLIST.loadCookieStorage();
+			var res = (settings.useStorage) ? loadLocalStorage() : loadCookieStorage();
 			return (!res || res == null) ? false : $.parseJSON(res);
 		} 
 
 		WISHLIST.updateStorege = function(){
-			(settings.useStorage) ? WISHLIST.wishToLocal() : WISHLIST.wishToCookie();
-			debWish();
+			(settings.useStorage) ? wishToLocal() : wishToCookie();
 		}
 
 		WISHLIST.cleanStorege = function(){
-			(settings.useStorage) ? WISHLIST.clearLocal() : WISHLIST.clearCookies();
+			(settings.useStorage) ? clearLocal() : clearCookies();
 			WISHLIST.toGlobal();
-			debWish();
 		}
 
 		//METODI GESTIONE LOCAL STORAGE
 
-		WISHLIST.loadLocalStorage = function(){
+		var loadLocalStorage = function(){
 			return localStorage.getItem(settings.storegeName);
 		}
 
-		WISHLIST.wishToLocal = function(){
+		var wishToLocal = function(){
 			localStorage.setItem(settings.storegeName,JSON.stringify(WISHLIST.data));
+			if(settings.storeID) storeIDinCookie();
 		}
 
-		WISHLIST.clearLocal = function(){
+		var clearLocal = function(){
 			localStorage.removeItem(settings.storegeName);
+			if(settings.storeID) storeIDinCookie();
+		}
+ 
+		var storeIDinCookie = function(){
+			var ids = [];
+			WISHLIST.data.each(function(item){
+				ids.push(item.id)
+			});
+			$.cookie(settings.setCookie.name+ "_IDS",JSON.stringify(ids));
+			console.log($.cookie(settings.setCookie.name+ "_IDS"));
 		}
 
 		//METODI GESTIONE COOKIE WISHLIST
 		// invocato ogni volta che cambia l'oggetto locale wishlist
 
-		WISHLIST.loadCookieStorage = function(){
+		var loadCookieStorage = function(){
 			return $.cookie(settings.setCookie.name);
 		}
 
-		WISHLIST.wishToCookie = function(){
+		var wishToCookie = function(){
 			$.cookie(settings.setCookie.name, JSON.stringify(WISHLIST.data), { expires: settings.setCookie.expire, path: settings.setCookie.path });
 		}
 		
 		// invocato ogni volta che si pulisce l'oggetto locale wishlist
-		WISHLIST.clearCookies = function(){
+		var clearCookies = function(){
 			$.removeCookie(settings.setCookie.name, {path: settings.setCookie.path});
 		}
 
 		//GESTORE MODIFICA DELLA COLLECTION 
 
-		collectionChange = function(actionName,model,collection,options){
+		var collectionChange = function(actionName,model,collection,options){
 			var item = model.attributes;
 			switch(actionName){
 				case "remove" : WISHLIST.updateStorege();
@@ -295,11 +310,6 @@
 			if(typeof settings.onClean == "function") settings.onClean.call(WISHLIST);
 		});
 
-		debWish = function(){ (settings.debug) ? console.log('Stored elements:', WISHLIST.loadStorage()) : function(){}; };
-		debCookie = function(){ (settings.debug) ? console.log('Collection:', WISHLIST.data) : function(){}; };
-		toConsole = function(msg, value){ (settings.debug) ? console.log(msg+': ', value) : function(){}; };
-		logWARN = function(){try{if(settings.debug) console.warn(WARN)}catch(err){}}
-
 		//COSTRUTTORE
 	
 		//Definisco il model e la collection di backbone
@@ -320,9 +330,8 @@
 		if(typeof settings.onLoad == "function") settings.onLoad.call(WISHLIST);
 
 		WISHLIST.toGlobal();
-		debWish();
 
 		return WISHLIST;
 	}
-	
+
 }( jQuery ));

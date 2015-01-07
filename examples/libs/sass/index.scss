@@ -57,24 +57,34 @@ body *{
 	float: left;
 	margin-left: 10px;
 }
-.trashIcon{
-	padding:2px 7px 2px 30px;
-	font-size: 10px;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-weight: bold;
-	height: 36px;
-	line-height: 32px;
+.WB_righSide{
 	float:right;
-	color:#333;
-	background: url("../img/trash.png") no-repeat center left white;
-	margin:10px 0;
-	border:solid 1px #999;
-	@include border-radius(5px);
 
-	&:hover{
-		@include box-shadow(1px 1px 2px 0px #C0C0C0 inset);
-		background-color: #f0f0f0;
+	a{
+		background: none no-repeat center left white;
+		padding:2px 7px;
+		font-size: 10px;
+		text-decoration: none;
+		text-transform: uppercase;
+		font-weight: bold;
+		height: 36px;
+		line-height: 32px;
+		float:right;
+		color:#333;
+		margin-bottom:5px;
+		border:solid 1px #999;
+		clear:both;
+		@include border-radius(5px);
+
+		&:hover{
+			@include box-shadow(1px 1px 2px 0px #C0C0C0 inset);
+			background-color: #f0f0f0;
+		}
+
+		&.trashIcon{
+			background: url("../img/trash.png") no-repeat center left white;
+			padding-left:30px;
+		}
 	}
 }
 
@@ -156,6 +166,56 @@ body *{
 			margin-right: 0;
 			padding-left: 0;
 			border-width: 0;
+		}
+	}
+}
+
+.listing{
+	.item{
+		margin:10px;
+		border:solid 0 #666;
+		position: relative;
+		float:left;
+
+		.error{
+			a{
+				color:#5184D5;
+				&:hover{
+					color:#333;
+				}
+			}
+		}
+
+		img{
+			float:left;
+			margin: 0 10px 10px 0;
+			border:solid 2px #666;
+		}
+
+		h5{
+			background-color: transparent;
+			color:#5184D5;
+			line-height: 32px;
+			font-size: 18px;
+			text-align: left;
+			border-top: solid 0px #264679;
+		}
+
+		.wishAction{
+			position: relative;
+			top:auto;
+			left:auto;
+			right: auto;
+			background-color: transparent;
+			border: solid 1px #ccc;
+			color:#999;
+			@include border-radius(5px);
+
+			&:hover{
+				background-color: #5184D5;
+				color:white;
+				border-color: #417DDD;
+			}
 		}
 	}
 }

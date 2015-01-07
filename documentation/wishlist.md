@@ -20,13 +20,11 @@ First include in your `<head>` the script:
 	<!-- lastone jquery Wishlist libs -->
 	<script type="text/javascript" src="/path/to/jquery_wish.js"></script>`
 
-Now you can instance `$.wishlist(ID)`, `ID` is an unique alphanumeric String, that represents a particular wishlist: 
+Now you can instance `$.wishlist(ID)`, `ID` is an unique alphanumeric String, the name of your wishlist: 
 
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$.wishlist("Wishlist");
-		});
-	</script>
+	$(document).ready(function(){
+		$.wishlist("Wishlist");
+	});
 
 ### basic example of HTML
 
@@ -65,13 +63,13 @@ References
 ### Wishlist
 `$.whislist(ID [,options])`
 
-**Return** : [_object_] return a new wishlist instance	
+**Return** : [_object_] wishlist instance	
 
 	$.Wishlist(ID,{
-		//insert here properties and methods for override it
+		/* insert here properties and methods for override it */
 	});
 
-- `ID` [**required**] : is an unique alpanumeric string that represents a particular wishlist
+- `ID` [**required**] : is an unique alpanumeric string, the name of wishlist
 
 - `options` [_optional_] : is an object that extend the default properties of wishlist and methods 
 
@@ -79,13 +77,20 @@ References
 
 * ##### `useStorage` #####
 
-	+   **Definition** : allowe to force the use of localStorage instead Cookie
+	+   **Definition** : allows to force the use of localStorage instead Cookie
 	+	**Value** : true/false
 	+   **Default** : `(typeof localStorage === "undefined") ? false : true`
 
+* ##### `storeID` #####
+
+	+   **Definition** : allows to store the items ID inside a Cookie (useful if you need this information for backend)
+	+	**Value** : false/true
+	+   **Default** : `(typeof localStorage === "undefined") ? false : true`
+	+	**See also**: [How wishlist communicates with the backend](#how-wishlist-communicates-with-the-backend)
+
 * #####`storegeName` #####
 
-	+   **Definition** : allowe you to force the name (ID) of your wishlist
+	+   **Definition** : allows you to force the name (ID) of your wishlist
 	+   **Default** :  `ID` - ID passed like attribute of `$.wishlist()`
 
 * #####`setCookie` #####
@@ -93,19 +98,17 @@ References
 	+   **Definition** : The property of cookie
 	+   **Default** :  
 			{
-				name : ID, //ID passed like attribute $.wishlist()
-				expire : 365,
-				path : "/"
+				"name" : ID, /*ID passed like attribute $.wishlist()*/
+				"expire" : 365,
+				"path" : "/"
 			}
-    
-        **Important: `modal` _property of this object will be overwritten_**
 
 * #####`BackboneModel` #####
 
 	+   **Definition** : object that extends the Backbone model
 	+   **Default** :  
 			{
-				defaults : {
+				"defaults" : {
 					id : null,
 					title : null,
 					img : null
@@ -116,6 +119,7 @@ References
 
 	+   **Definition** : object that extends the Backbone collection, by default the attributes `model` of beckbone collection is the `BackboneModel`
 	+   **Default** :  `{}`
+	+	**Important: `model` _property of this object will be overwritten_**
 
 * #####`useCustomElements` #####
 
@@ -160,9 +164,9 @@ References
 	+   **Definition** : Testi di default
 	+   **Default** :
 			{
-				noStorage : "Questa funzione &egrave; utilizzabile solo con cookies attivi",
-				add : "Aggiungi ",
-				remove : "Rimuovi "
+				"noStorage" : "Enable Cookie, please",
+				"add" : "Add ",
+				"remove" : "Remove "
 			}
 
  ####Methods
@@ -255,4 +259,7 @@ References
 
 --- 
 
+How wishlist communicates with the backend
+---
 
+Right now, the only method to read the element inside wishlist of a user are the `Cookies`. Also with localStorage, Wishlist store the ids of the item inside a cookie callad `ID + "_IDS"` where `ID` is the string passed like attribute of `$.whislist`. If localStorge isn't enable in user browser the reference name (of the cookie) is only the `ID`.
