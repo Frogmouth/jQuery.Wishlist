@@ -19,7 +19,7 @@
     </section>
 
     <section class="main-content">
-      <p><em>Sorry for my bad English :: FrogMouth</em></p>
+      <hr>
 
 <h1>
 <a id="jquerywishlist" class="anchor" href="#jquerywishlist" aria-hidden="true"><span class="octicon octicon-link"></span></a>jQuery.Wishlist</h1>
@@ -53,6 +53,500 @@ To do that we use <strong>localStorage</strong> or <strong>cookie</strong> (if l
 Collections and models of Backbone allow to manipulate the information with smart and powerfull tools, like: filtering, ordering, ecc... and in the future it allows the possibility to integrate with a server side app.</p>
 
 <p>It's a jQuery plugin only because it's friendly for more developer, rather that Backbone only, but in the future maybe we will use jQuery only for the View.</p>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<h3>
+<a id="libs-include-needed" class="anchor" href="#libs-include-needed" aria-hidden="true"><span class="octicon octicon-link"></span></a>Libs include needed</h3>
+
+<p>First include in your <code>&lt;head&gt;</code> the script:</p>
+
+<pre><code>&lt;script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://underscorejs.org/underscore-min.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="http://backbonejs.org/backbone-min.js"&gt;&lt;/script&gt;
+
+&lt;!-- dowload and include local --&gt;
+&lt;script type="text/javascript" src="/path/to/jquery.cookie.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" src="/path/to/json2.js"&gt;&lt;/script&gt;
+
+&lt;!-- lastone jquery Wishlist libs --&gt;
+&lt;script type="text/javascript" src="/path/to/jquery_wish.js"&gt;&lt;/script&gt;`
+</code></pre>
+
+<p>Now you can instance <code>$.wishlist(ID)</code>, <code>ID</code> is an unique alphanumeric String, the name of your wishlist: </p>
+
+<pre><code>$(document).ready(function(){
+    $.wishlist("Wishlist");
+});
+</code></pre>
+
+<h3>
+<a id="basic-example-of-html" class="anchor" href="#basic-example-of-html" aria-hidden="true"><span class="octicon octicon-link"></span></a>basic example of HTML</h3>
+
+<p>A basic exaple to wishing an element by his ID:</p>
+
+<pre><code>&lt;!-- wish counter --&gt;
+&lt;a class="wishCounter"&gt;0&lt;/a&gt;
+
+&lt;!-- clear wish list --&gt;
+&lt;a id="clearWish" href="#!"&gt;Clean Wishlist&lt;/a&gt;
+
+&lt;!-- wish ITEMS --&gt;
+&lt;div class="item wishItem"&gt;
+    &lt;a class="wishAction addToWish" data-title="Foo" data-id="1" href="#"&gt;ADD Foo to wishlist&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class="item wishItem"&gt;
+    &lt;a class="wishAction addToWish" data-title="Fish" data-id="2" href="#"&gt;ADD Fish to wishlist&lt;/a&gt;
+&lt;/div&gt;
+&lt;div class="item wishItem"&gt;
+    &lt;a class="wishAction addToWish" data-title="Mug" data-id="10" href="#"&gt;ADD Mug to wishlist&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- wished list --&gt;
+&lt;div id="wishList"&gt;
+&lt;/div&gt;
+</code></pre>
+
+<h2>
+<a id="references" class="anchor" href="#references" aria-hidden="true"><span class="octicon octicon-link"></span></a>References</h2>
+
+<ul>
+<li><a href="#wishlist">$.whislist()</a></li>
+<li><a href="#wishbar">$.fn.wishBar()</a></li>
+<li><a href="#wishitem">$.fn.wishItem()</a></li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="wishlist" class="anchor" href="#wishlist" aria-hidden="true"><span class="octicon octicon-link"></span></a>Wishlist</h3>
+
+<p><code>$.whislist(ID [,options])</code></p>
+
+<p><strong>Return</strong> : [<em>object</em>] wishlist instance   </p>
+
+<pre><code>$.Wishlist(ID,{
+    /* insert here properties and methods for override it */
+});
+</code></pre>
+
+<ul>
+<li><p><code>ID</code> [<strong>required</strong>] : is an unique alpanumeric string, the name of wishlist</p></li>
+<li><p><code>options</code> [<em>optional</em>] : is an object that extend the default properties of wishlist and methods </p></li>
+</ul>
+
+<h4>
+<a id="properties" class="anchor" href="#properties" aria-hidden="true"><span class="octicon octicon-link"></span></a>Properties</h4>
+
+<ul>
+<li>
+<h5>
+<a id="usestorage" class="anchor" href="#usestorage" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>useStorage</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : allows to force the use of localStorage instead Cookie</li>
+<li>  <strong>Value</strong> : true/false</li>
+<li>  <strong>Default</strong> : <code>(typeof localStorage === "undefined") ? false : true</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="storeid" class="anchor" href="#storeid" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>storeID</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : allows to store the items ID inside a Cookie (useful if you need this information for backend)</li>
+<li>  <strong>Value</strong> : false/true</li>
+<li>  <strong>Default</strong> : <code>(typeof localStorage === "undefined") ? false : true</code>
+</li>
+<li>  <strong>See also</strong>: <a href="#how-wishlist-communicates-with-the-backend">How wishlist communicates with the backend</a>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="storegename" class="anchor" href="#storegename" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>storegeName</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : allows you to force the name (ID) of your wishlist</li>
+<li>  <strong>Default</strong> :  <code>ID</code> - ID passed like attribute of <code>$.wishlist()</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="setcookie" class="anchor" href="#setcookie" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>setCookie</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : The property of cookie</li>
+<li>  <strong>Default</strong> :<br>
+    {
+        "name" : ID, /<em>ID passed like attribute $.wishlist()</em>/
+        "expire" : 365,
+        "path" : "/"
+    }</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="backbonemodel" class="anchor" href="#backbonemodel" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>BackboneModel</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : object that extends the Backbone model</li>
+<li>  <strong>Default</strong> :<br>
+    {
+        "defaults" : {
+            id : null,
+            title : null,
+            img : null
+        }
+    }</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="backbonecollection" class="anchor" href="#backbonecollection" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>BackboneCollection</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : object that extends the Backbone collection, by default the attributes <code>model</code> of beckbone collection is the <code>BackboneModel</code>
+</li>
+<li>  <strong>Default</strong> :  <code>{}</code>
+</li>
+<li>  <strong>Important: <code>model</code> <em>property of this object will be overwritten</em></strong>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="usecustomelements" class="anchor" href="#usecustomelements" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>useCustomElements</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : allow you to force the plugin to ignore the default elements rendered by wishlist</li>
+<li>  <strong>Default</strong> :  <code>false</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="wishbar" class="anchor" href="#wishbar" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>$wishBar</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : a jquery selector of a DOM element where render the list of wished item</li>
+<li>  <strong>Default</strong> : <code>$(".wishItem")</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="wishitem" class="anchor" href="#wishitem" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>$wishItem</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : a jquery selector of DOM elements that rapresents the elemen to wish</li>
+<li>  <strong>Default</strong> : <code>$("#wishList")</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="baroptions" class="anchor" href="#baroptions" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>barOptions</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : an object that override the default option of wishlist bar</li>
+<li>  <strong>Default</strong> :  <code>{}</code>
+</li>
+<li>  <strong>REF</strong> : <a href="#wishbar">$.fn.wishBar()</a>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="itemoptions" class="anchor" href="#itemoptions" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>itemOptions</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : an object that override the default option of wishlist items</li>
+<li>  <strong>Default</strong> : <code>{}</code>
+</li>
+<li>  <strong>REF</strong> : <a href="#wishitem">$.fn.wishItem()</a>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="counterclass" class="anchor" href="#counterclass" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>counterClass</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : the name of the class where wishlist place the number of the elements inside the wishlist</li>
+<li>  <strong>Default</strong> :  <code>"wishCounter"</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="clearid" class="anchor" href="#clearid" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>clearId</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : id which bind for clear wishlist</li>
+<li>  <strong>Default</strong> :  <code>"clearWish"</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="text" class="anchor" href="#text" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>text</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : Testi di default</li>
+<li>  <strong>Default</strong> :
+    {
+        "noStorage" : "Enable Cookie, please",
+        "add" : "Add ",
+        "remove" : "Remove "
+    }</li>
+</ul>
+
+<h4>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h4>
+
+<p>There are some local methods that allow to altering or extending the behavior of the plugin. By default all of this methods value is <code>null</code>, you can sat a function that override or extend the default behavior.</p>
+
+<ul>
+<li>
+<h5>
+<a id="onload" class="anchor" href="#onload" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>onLoad()</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : invoked when the wishlist was loaded</li>
+<li>  <strong>Default</strong> : <code>null</code>
+</li>
+<li>  <strong>Context</strong> : wishlist inscance</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="onclean" class="anchor" href="#onclean" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>onClean</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : invoked when the wishlist was cleaning</li>
+<li>  <strong>Default</strong> : <code>null</code>
+</li>
+<li>  <strong>Context</strong> : wishlist inscance</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="onchangeactionnamemodelcollection" class="anchor" href="#onchangeactionnamemodelcollection" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>onChange(actionName,model,collection)</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : invoked when add or remove some element on wishlist</li>
+<li>  <strong>Default</strong> : <code>null</code>
+</li>
+<li>  <strong>Context</strong> : wishlist inscance</li>
+<li>  <strong>attributes</strong> : 
+
+<ul>
+<li>
+<code>actionName</code> : <strong>[String]</strong> <code>"add"</code> <code>"remove"</code>
+</li>
+<li>
+<code>model</code> : <strong>[Backbone model object]</strong>
+</li>
+<li>
+<code>collection</code> : <strong>[Backbone Collection object]</strong>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="wishbar-1" class="anchor" href="#wishbar-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>WishBar</h3>
+
+<p><code>$.fn.wishBar(WISHLIST [,options])</code></p>
+
+<ul>
+<li>
+<code>WISHLIST</code> [<strong>required</strong>] : is the Wishlist istance</li>
+<li>
+<code>options</code> [<em>optional</em>] : is an object that extend the default properties and methods</li>
+</ul>
+
+<h4>
+<a id="properties-1" class="anchor" href="#properties-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Properties</h4>
+
+<ul>
+<li>
+<h5>
+<a id="template" class="anchor" href="#template" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>template</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : underscore template uses for display the information</li>
+<li>  <strong>Default</strong> :  <code>"&lt;div rel='"+WISHLIST.ID+"' id='wishItem_&lt;%- id %&gt;' class='wishedItem' data-id='&lt;%- id %&gt;'&gt;&lt;img src='&lt;%- img %&gt;'&gt;&lt;p&gt;&lt;%- title %&gt;&lt;/p&gt;&lt;/div&gt;",</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<h4>
+<a id="method" class="anchor" href="#method" aria-hidden="true"><span class="octicon octicon-link"></span></a>Method</h4>
+
+<ul>
+<li>
+<h5>
+<a id="additemhtml" class="anchor" href="#additemhtml" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>addItemHtml</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : this function override the default method uses for generate and place the element inside of wishbar </li>
+<li>  <strong>Attributes</strong> :
+
+<ul>
+<li>
+<code>data</code> [object] the attributes of the model added to wishbar </li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="removeitemhtml" class="anchor" href="#removeitemhtml" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>removeItemHtml</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : this function override the default method to remove an element inside the wishbar</li>
+<li>  <strong>Attributes</strong> :
+
+<ul>
+<li>
+<code>id</code> [object] the id of the element to remove from wishbar </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<hr>
+
+<h3>
+<a id="wishitem-1" class="anchor" href="#wishitem-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>WishItem</h3>
+
+<p><code>$.fn.wishItem(WISHLIST [,options])</code></p>
+
+<ul>
+<li>
+<code>WISHLIST</code> [<strong>required</strong>] : is the Wishlist istance</li>
+<li>
+<code>options</code> [<em>optional</em>] : is an object that extend the default properties and methods</li>
+</ul>
+
+<h4>
+<a id="properties-2" class="anchor" href="#properties-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Properties</h4>
+
+<ul>
+<li>
+<h5>
+<a id="removeclass" class="anchor" href="#removeclass" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>removeClass</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : class which bind the event for remove some elment to wishlist</li>
+<li>  <strong>Default</strong> :  "removeToWish"</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="addclass" class="anchor" href="#addclass" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>addClass</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : class which bind the event for add some elment to wishlist</li>
+<li>  <strong>Default</strong> :  <code>"addToWish"</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="triggerclass" class="anchor" href="#triggerclass" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>triggerClass</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : class which bind all edit event</li>
+<li>  <strong>Default</strong> :  <code>"wishAction"</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="triggerevent" class="anchor" href="#triggerevent" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>triggerEvent</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : binded event type </li>
+<li>  <strong>Default</strong> :  <code>"click"</code>
+</li>
+</ul>
+</li>
+<li>
+<h5>
+<a id="samebutton" class="anchor" href="#samebutton" aria-hidden="true"><span class="octicon octicon-link"></span></a><code>sameButton</code>
+</h5>
+
+<ul>
+<li>  <strong>Definition</strong> : use same element to add and remove item from wishlist</li>
+<li>  <strong>Default</strong> :  <code>true</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<h4>
+<a id="method-1" class="anchor" href="#method-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Method</h4>
+
+<ul>
+<li>##### <code>picker(item)</code> #####
+
+<ul>
+<li>  <strong>Definition</strong> : this function override the default method to pick the data when click for "ADD" an element</li>
+<li>  <strong>Attributes</strong> : 
+
+<ul>
+<li>
+<code>item</code>: jquery object that rapresent the clicked element</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<hr>
+
+<h2>
+<a id="how-wishlist-communicates-with-the-backend" class="anchor" href="#how-wishlist-communicates-with-the-backend" aria-hidden="true"><span class="octicon octicon-link"></span></a>How wishlist communicates with the backend</h2>
+
+<p>Right now, the only method to read the element inside wishlist of a user are the <code>Cookies</code>. Also with localStorage, Wishlist store the ids of the item inside a cookie callad <code>ID + "_IDS"</code> where <code>ID</code> is the string passed like attribute of <code>$.whislist</code>. If localStorge isn't enable in user browser the reference name (of the cookie) is only the <code>ID</code>.</p>
 
 <h2>
 <a id="done-and-to-do-list" class="anchor" href="#done-and-to-do-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>Done and To do list:</h2>
