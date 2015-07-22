@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Jquery.wishlist by Frogmouth</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Jquery.wishlist</h1>
+      <h2 class="project-tagline">A simple jquery plugin for manage a wishlist with cookies and without registration needed.</h2>
+      <a href="https://github.com/Frogmouth/jQuery.Wishlist" class="btn">View on GitHub</a>
+      <a href="https://github.com/Frogmouth/jQuery.Wishlist/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/Frogmouth/jQuery.Wishlist/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <p><em>Sorry for my bad English :: FrogMouth</em></p>
+
+<h1>
+<a id="jquerywishlist" class="anchor" href="#jquerywishlist" aria-hidden="true"><span class="octicon octicon-link"></span></a>jQuery.Wishlist</h1>
+
+<p>A simple jquery plugin for manage a wishlist with cookies and without registration needed.</p>
+
+<h3>
+<a id="current-version-132" class="anchor" href="#current-version-132" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current Version: 1.3.2</h3>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p><em>Wishlist</em> needs some library for works 100%, in the future, we want to creating a light versione without these libs, but today for boost developing plug-in we need it.</p>
+
+<ul>
+<li>
+<a href="http://jquery.com/" title="jQuery Home">jQuery</a> (&gt; 1.8 raccomanded)</li>
+<li><a href="http://underscorejs.org/" title="Underscore Home">Underscore JS</a></li>
+<li><a href="http://backbonejs.org/" title="Backbone Home">Backbone JS</a></li>
+<li><a href="https://github.com/douglascrockford/JSON-js" title="Json2 GitHub">JSON2</a></li>
+<li><a href="https://github.com/carhartl/jquery-cookie" title="jquery-cookie">jCookies</a></li>
+</ul>
+
+<h2>
+<a id="what-can-we-do" class="anchor" href="#what-can-we-do" aria-hidden="true"><span class="octicon octicon-link"></span></a>What can we do?</h2>
+
+<p>With <em>Wishlist</em> you can create a simple bar or button (or what you like) who save page's information into a cookie for create a simple wishlist (or reminder, or cart, ...).
+To do that we use <strong>localStorage</strong> or <strong>cookie</strong> (if localstorage is disabled). It's an alternative to the registration, <strong>a simple way to do a complex thing</strong>.</p>
+
+<p><strong>Backbone</strong>, why? Because it allows me to have some very useful tools for the development.
+Collections and models of Backbone allow to manipulate the information with smart and powerfull tools, like: filtering, ordering, ecc... and in the future it allows the possibility to integrate with a server side app.</p>
+
+<p>It's a jQuery plugin only because it's friendly for more developer, rather that Backbone only, but in the future maybe we will use jQuery only for the View.</p>
+
+<h2>
+<a id="done-and-to-do-list" class="anchor" href="#done-and-to-do-list" aria-hidden="true"><span class="octicon octicon-link"></span></a>Done and To do list:</h2>
+
+<p><strong>DONE:</strong></p>
+
+<ul>
+<li>NEW 1.3 version (deep rebuild)</li>
+<li>Implement <strong>localStorage</strong> as an alternative of COOKIE (using cookie only for send items id to backend)</li>
+<li>a NEW Working example</li>
+<li>wishlist bar</li>
+<li>wishlist item</li>
+</ul>
+
+<p><strong>TO DO:</strong></p>
+
+<ul>
+<li>Continue to Developed the Core Script</li>
+<li>Exploit the possibilities of Backbone</li>
+<li>Develop client management wisthlist (like item order, item prop, ecc...)</li>
+<li>Crossbrowser bug fix (&gt; IE8)</li>
+<li>Dev other some <strong>RedyToUse</strong> exaples with graphics (CSS/HTML - button and bar)</li>
+<li>Use some customs methods instead jquery Cookie to work with Cookie</li>
+</ul>
+
+<p><strong>Remote Dev</strong></p>
+
+<ul>
+<li>Integrate the ability to communicate with a server ( <em>REST</em> ) via Backbone</li>
+</ul>
+
+<h2>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick start:</h2>
+
+<p>Calls inside document ready <code>$.Wishlist(ID)</code> where <code>ID</code> is a unique string that represents the ID of your wishlist, in every page the ID must be the same to get the wishlist item.</p>
+
+<pre><code>$(function(){
+    window.MYwishlist = $.Wishlist("wishlist");
+});
+</code></pre>
+
+<p><code>MYwishlist.data</code> is the Backbone collection of your wished ITEM.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Frogmouth/jQuery.Wishlist">Jquery.wishlist</a> is maintained by <a href="https://github.com/Frogmouth">Frogmouth</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
+
