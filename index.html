@@ -55,6 +55,18 @@ Collections and models of Backbone allow to manipulate the information with smar
 <p>It's a jQuery plugin only because it's friendly for more developer, rather that Backbone only, but in the future maybe we will use jQuery only for the View.</p>
 
 <h2>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick start:</h2>
+
+<p>Calls inside document ready <code>$.Wishlist(ID)</code> where <code>ID</code> is a unique string that represents the ID of your wishlist, in every page the ID must be the same to get the wishlist item.</p>
+
+<pre><code>$(function(){
+    window.MYwishlist = $.Wishlist("wishlist");
+});
+</code></pre>
+
+<p><code>MYwishlist.data</code> is the Backbone collection of your wished ITEM.</p>
+
+<h2>
 <a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
 <h3>
@@ -577,18 +589,6 @@ Collections and models of Backbone allow to manipulate the information with smar
 <ul>
 <li>Integrate the ability to communicate with a server ( <em>REST</em> ) via Backbone</li>
 </ul>
-
-<h2>
-<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span class="octicon octicon-link"></span></a>Quick start:</h2>
-
-<p>Calls inside document ready <code>$.Wishlist(ID)</code> where <code>ID</code> is a unique string that represents the ID of your wishlist, in every page the ID must be the same to get the wishlist item.</p>
-
-<pre><code>$(function(){
-    window.MYwishlist = $.Wishlist("wishlist");
-});
-</code></pre>
-
-<p><code>MYwishlist.data</code> is the Backbone collection of your wished ITEM.</p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/Frogmouth/jQuery.Wishlist">Jquery.wishlist</a> is maintained by <a href="https://github.com/Frogmouth">Frogmouth</a>.</span>
