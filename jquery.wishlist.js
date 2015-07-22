@@ -1,5 +1,5 @@
 /* 
- * Last Version 1.3.1 by Simone Luise
+ * Last Version 1.3.2 by Simone Luise
  * http://github.com/Frogmouth/jQuery.Wishlist/
  */
 
@@ -302,7 +302,7 @@
 			for (fun in WISHLIST.propagate) {
 				if(typeof WISHLIST.propagate[fun] === "function") WISHLIST.propagate[fun](actionName,item);
 			}
-			if(typeof settings.onChange== "function") settings.onChange(WISHLIST);
+			if(typeof settings.onChange== "function") settings.onChange.call(WISHLIST,actionName,model,collection);
 		}
 
 		$("#"+settings.clearId).on("click.triggerClear", function(e){

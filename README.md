@@ -5,7 +5,7 @@ jQuery.Wishlist
 
 A simple jquery plugin for manage a wishlist with cookies and without registration needed.
 
-### Current Version: 1.3.1
+### Current Version: 1.3.2
 
 Requirements
 ---------------------

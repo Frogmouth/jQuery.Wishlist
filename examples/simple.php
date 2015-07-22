@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
 <?php
-	$items_ids = json_decode($_COOKIE["wishlist_IDS"]);
+	if(isset($_COOKIE["wishlist_IDS"])) $items_ids = json_decode($_COOKIE["wishlist_IDS"]);
+	else $items_ids = array();
 ?>
 
 <html lang="en">
@@ -55,8 +56,12 @@
 			window.MYwishlist = $.Wishlist("wishlist",{
 				itemOption : {
 					onRemove : function(item){
-						$("[data-id="+item.id+"]").parents(".wishItem").remove();
-							if($(".listing .item").length < 1) $(".listing").append('<div class="error"> No wished item... <a class="wish" href="simple.html">Wish One</a></div>');
+							$("[data-id="+item.id+"]").parents(".wishItem").animate({
+								opacity:0
+							},function(){
+								$(this).remove();
+								if($(".listing .item").length < 1) $(".listing").append('<div class="error">No wished item... <a class="wish" href="simple.html">Wish One</a></div>');
+							});
 						}
 				}
 			});
