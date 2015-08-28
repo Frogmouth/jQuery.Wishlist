@@ -7,6 +7,8 @@ A simple jquery plugin for manage a wishlist with cookies and without registrati
 
 ### Current Version: 1.3.2
 
+> This script is in **beta** test, in some browser with some devices you may occur some issues. Please open a issue in my GIT project if you found some.
+
 Requirements
 ---------------------
 
